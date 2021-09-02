@@ -1,0 +1,23 @@
+{
+  "name": "dummy-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node run.js",
+    "dev": "nodemon run.js",
+    "dev:prod": "deta watch",
+    "deploy": "deta deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "deta": "^1.0.0",
+    "dotenv": "^10.0.0",
+    "faker": "^5.5.3",
+    "fastify": "^3.20.2",
+    "fastify-swagger": "^4.9.1",
+    "nodemon": "^2.0.12"
+  }
+}
