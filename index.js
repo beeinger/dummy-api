@@ -320,4 +320,6 @@ app.ready((err) => {
   app.swagger();
 });
 
+app.register(require("fastify-cors"), { origin: "*" });
+
 module.exports = app;
