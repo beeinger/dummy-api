@@ -10,7 +10,7 @@ const faker = require("faker");
 const user = {
     name: { type: "string" },
     surname: { type: "string" },
-    email: { type: "string" },
+    email: { type: "string", format: "email" },
     dob: { type: "string" },
     profilePicture: { type: "string" },
     theme: { type: "string" },
@@ -18,6 +18,7 @@ const user = {
   },
   respUser = {
     type: "object",
+    required: ["email", "name", "surname"],
     properties: user,
   },
   respUsers = {
@@ -38,6 +39,18 @@ app.register(require("fastify-swagger"), {
   staticCSP: true,
   transformStaticCSP: (header) => header,
   exposeRoute: true,
+  swagger: {
+    info: {
+      title: "Dummy JSON API",
+    },
+    definitions: {
+      User: {
+        type: "object",
+        required: ["name", "surname", "email", "theme"],
+        properties: user,
+      },
+    },
+  },
 });
 
 app.get(
@@ -106,6 +119,37 @@ app.get(
     }
 
     return allItems;
+  }
+);
+
+app.get(
+  "/user/:email",
+  {
+    schema: {
+      description: "gets a user",
+      summary: "get a user",
+      tags: ["user"],
+      params: {
+        type: "object",
+        properties: {
+          email: {
+            type: "string",
+            description: "user email",
+          },
+        },
+      },
+      response: {
+        200: {
+          description: "Successful response",
+          ...respUser,
+        },
+      },
+    },
+  },
+  async (request, reply) => {
+    let user = await db.get(request.params.email);
+
+    return user;
   }
 );
 
